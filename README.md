@@ -1,3 +1,3 @@
 # Scroll Magic Book
 
-![Agent Image](./public/scroll_magic_book.JPG)
+![Agent Image](./public/scrollmagicbook.JPG)
