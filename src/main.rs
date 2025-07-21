@@ -1,5 +1,9 @@
-mod response;
+// Defining Modules
+pub mod response;
+pub mod agents;
 
+
+use response::request;
 
 use axum::{
     extract::{Path, Query}, 
@@ -18,7 +22,7 @@ async fn main(){
 
     // Axum router 
     let router_scroll_magic_book: Router = Router::new().route("/scroll_magic_book",
-    post(response::request));
+    post(request));
 
 
     // Define Ip and Port

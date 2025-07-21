@@ -1,13 +1,8 @@
+use crate::agents::processing_agent::process;
+use axum::{Json,debug_handler};
+use tokio::task;
 
-use scroll_magic_book::agents::processing_agent::process;
-
-use axum::{Json,extract::{Path, Query},debug_handler};
-use std::collections::HashMap;
-use reqwest;
-use  tokio::task;
-use serde::de::Unexpected::Option;
-
-
+ 
 #[derive(Debug, serde::Serialize)]
 pub struct Respond{
     output:String,
@@ -28,23 +23,34 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
     println!("Successfully Responsed {:?}",query.message);
     println!("Successfully Responsed {:?}",query.media);
 
-    let response = task::spawn(async move{process(&query.message).await.unwrap_or_default()});
+
+    let response = task::spawn_blocking(move||{
+        let reply= process(&query.message);
+
+        println!("{}", &reply.unwrap())
+    }).await.ok();
+    // let response = task::spawn(move||{
+    //     let reply = process(&query.message);
+
+    //     println!("Ouput:{}",&reply.unwrap());
+    //     })();
     
 
-    match response.await {
-        Ok(result) => println!("Got result: {:?}", result),
-        Err(e) => eprintln!("Task failed {:?}",e),
-    }
+    // match response.await {
+    //     Ok(result) => println!("Got result: {:?}", result),
+    //     Err(e) => eprintln!("Task failed {:?}",e),
+    // }
 
     // let result = response.await.unwrap();
+    // let reply = response(&query.message);
 
 
-    // println!("{:?}",&response);
+    println!("{:#?}",&response);
    
 
     return Json::from(
         Respond{
-            output: "Done".to_string(),
+            output: "HELLO".to_string(),
         }
     )
 }
@@ -57,17 +63,11 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
 
 
 
-
-
-
-
-
 // Utilities
 
-#[tokio::main]
-pub async fn response(_message:&str) -> String{
+pub fn response(_message:&str) -> String{
 
-    let reply = process(&_message).await.unwrap();
+    let reply = process(&_message).unwrap();
 
     reply
 }

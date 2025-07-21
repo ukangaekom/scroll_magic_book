@@ -2,7 +2,6 @@ use genai::chat::printer::print_chat_stream;
 use genai::chat::{ChatMessage, ChatRequest};
 use genai::Client;
 use std::sync::OnceLock;
-use std::io::Error;
 
 static PROCESS_SYSTEM_CONFIGURATION: OnceLock<String> = OnceLock::new();
 static CLIENT: OnceLock<genai::Client> = OnceLock::new();
@@ -21,7 +20,7 @@ fn get_client() -> &'static genai::Client {
 }
 
 
-
+#[tokio::main]
 pub async fn process(_text:&str) -> Option<std::string::String> {
 
     let client = get_client();
@@ -31,7 +30,7 @@ pub async fn process(_text:&str) -> Option<std::string::String> {
         ChatMessage::user(_text.to_string())
     ]);
 
-    let model: &str = "gemini-1.5-flash-latest";
+    let model: &str = "Gemini-2.0-flash";
 
     let chat_res = client.exec_chat_stream(model, chat_req, None).await.ok();
     
