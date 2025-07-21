@@ -1,5 +1,5 @@
 [package]
-name = "scroll_magic_book_discord"
+name = "scroll_magic_book"
 version = "0.1.0"
 edition = "2024"
 
@@ -9,4 +9,7 @@ serde = { version = "1.0.219", features = ["derive"] }
 tokio = { version = "1.45.1", features = ["full"] }
 reqwest = "0.12.22"
 ethers-etherscan = "2.0.14"
+
+# Genai
+genai = "=0.1.7"
 
