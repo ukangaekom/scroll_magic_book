@@ -50,27 +50,6 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
         }
     }
 
-
-    
-
-    // println!("Hey {:?}",reply);
-    // let response = task::spawn(move||{
-    //     let reply = process(&query.message);
-
-    //     println!("Ouput:{}",&reply.unwrap());
-    //     })();
-    
-
-    // match response.await {
-    //     Ok(result) => println!("Got result: {:?}", result),
-    //     Err(e) => eprintln!("Task failed {:?}",e),
-    // }
-
-    // let result = response.await.unwrap();
-    // let reply = response(&query.message);
-
-
-    // println!("{:#?}",&response);
    
 
     
