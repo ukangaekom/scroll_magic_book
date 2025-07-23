@@ -34,19 +34,22 @@ pub async fn process(_text:&str) -> Option<std::string::String> {
     let model: &str = "gemini-2.0-flash";
     // let model: &str = "gemini-1.5-flash-latest";
 
-    let chat_res = client.exec_chat_stream(model, chat_req, None).await;
+    // let chat_res = client.exec_chat_stream(model, chat_req, None).await;
+    let chat_res = client.exec_chat(model, chat_req, None).await;
     
-    let routing_response = match print_chat_stream(chat_res.expect("REASON"),  None).await {
+    // let routing_response = match print_chat_stream(chat_res.expect("REASON"),  None).await {
+    // let routing_response = match print_chat_stream(chat_res.expect("REASON"), None).await{
 
-        Ok(response) => {
-            return Some(response);
-        },
+    //     Ok(response) => {
+    //         return Some(response);
+    //     },
 
-        Err(e) => {
-            return Some(e.to_string());
-        }
-    };
+    //     Err(e) => {
+    //         return Some(e.to_string());
+    //     }
+    // };
 
+    chat_res.expect("REASON").content_text_into_string()
     
 }
 

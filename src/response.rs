@@ -24,8 +24,8 @@ pub struct Prompt{
 #[debug_handler]
 pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
 
-    println!("Successfully Responsed {:?}",query.message);
-    println!("Successfully Responsed {:?}",query.media);
+    // println!("Successfully Responsed {:?}",query.message);
+    // println!("Successfully Responsed {:?}",query.media);
 
 
     let reply = task::spawn_blocking(move||{
@@ -37,9 +37,9 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
     }).await;
 
     match reply{
-        ref result => {
+        Ok(result) => {
             return Json::from(
-        Respond{output:format!("{:#?}",reply) })
+        Respond{output:result})
 
 
         }
