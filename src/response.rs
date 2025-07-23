@@ -1,6 +1,10 @@
 use crate::agents::processing_agent::process;
 use axum::{Json,debug_handler};
 use tokio::task;
+// use tokio::sync::Mutex;
+
+use std::sync::{Arc, Mutex};
+use std::thread::{spawn};
 
  
 #[derive(Debug, serde::Serialize)]
@@ -24,11 +28,32 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
     println!("Successfully Responsed {:?}",query.media);
 
 
-    let response = task::spawn_blocking(move||{
-        let reply= process(&query.message);
+    let reply = task::spawn_blocking(move||{
+        let process = process(&query.message);
+        // response = format!("{:?}", process.as_ref().unwrap());
+        // println!("THE NEXT PHASE IN THE FUNCTION \n\n\n\n\n{:?}", process.as_ref().unwrap());
+        process.unwrap()
+        // process.unwrap()
+    }).await;
 
-        println!("{}", &reply.unwrap())
-    }).await.ok();
+    match reply{
+        ref result => {
+            return Json::from(
+        Respond{output:format!("{:#?}",reply) })
+
+
+        }
+        _ => {
+            return Json::from(
+        Respond{output:"Error".to_string(),})
+    
+        }
+    }
+
+
+    
+
+    // println!("Hey {:?}",reply);
     // let response = task::spawn(move||{
     //     let reply = process(&query.message);
 
@@ -45,14 +70,10 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
     // let reply = response(&query.message);
 
 
-    println!("{:#?}",&response);
+    // println!("{:#?}",&response);
    
 
-    return Json::from(
-        Respond{
-            output: "HELLO".to_string(),
-        }
-    )
+    
 }
 
 
@@ -67,9 +88,10 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
 
 pub fn response(_message:&str) -> String{
 
-    let reply = process(&_message).unwrap();
+    // let reply = process(&_message).await.unwrap();
 
-    reply
+    // reply
+    "Okay".to_string()
 }
 
 

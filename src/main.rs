@@ -4,7 +4,6 @@ pub mod agents;
 
 
 use response::request;
-
 use axum::{
     extract::{Path, Query}, 
     routing::get,
@@ -12,6 +11,7 @@ use axum::{
     Router
 };
 use tokio::net::TcpListener;
+use std::env;
 
 
 
@@ -19,6 +19,8 @@ use tokio::net::TcpListener;
 
 #[tokio::main]
 async fn main(){
+    dotenv_flow::dotenv_flow().ok();
+
 
     // Axum router 
     let router_scroll_magic_book: Router = Router::new().route("/scroll_magic_book",
@@ -33,7 +35,9 @@ async fn main(){
     println!("Listener on {address}\n");
 
 
+    // let output = agents::processing_agent::process("Hello How are you").await.unwrap();
 
+    // println!("{}",output);
     // Launch the web server
     axum::serve(listener, router_scroll_magic_book).await.unwrap();
 }

@@ -13,3 +13,7 @@ ethers-etherscan = "2.0.14"
 # Genai
 genai = "=0.1.7"
 
+# Enviroment
+dotenv-flow = "0.16.2"
+
+

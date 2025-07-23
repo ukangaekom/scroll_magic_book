@@ -400,6 +400,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "dotenv-flow"
+version = "0.16.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ccff2060df2e1a42732ab1e7af8c5f930ed3d0255aaadfae66e032781e8d271a"
+
+[[package]]
 name = "ecdsa"
 version = "0.16.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2052,6 +2058,7 @@ name = "scroll_magic_book"
 version = "0.1.0"
 dependencies = [
  "axum",
+ "dotenv-flow",
  "ethers-etherscan",
  "genai",
  "reqwest 0.12.22",
