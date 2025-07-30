@@ -21,10 +21,11 @@ pub fn get_client() -> &'static genai::Client {
     })
 }
 
-#[tokio::main]
+
 pub async fn process(_text:&str) -> Option<std::string::String> {
 
     let client = get_client();
+    // let client = Client::default();
 
     let chat_req: ChatRequest = ChatRequest::new(vec![
         ChatMessage::system(get_process_system_configuration()),

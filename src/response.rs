@@ -3,8 +3,6 @@ use axum::{Json,debug_handler};
 use tokio::task;
 // use tokio::sync::Mutex;
 
-use std::sync::{Arc, Mutex};
-use std::thread::{spawn};
 
  
 #[derive(Debug, serde::Serialize)]
@@ -28,11 +26,11 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
     // println!("Successfully Responsed {:?}",query.media);
 
 
-    let reply = task::spawn_blocking(move||{
+    let reply = task::spawn(async move{
         let process = process(&query.message);
         // response = format!("{:?}", process.as_ref().unwrap());
         // println!("THE NEXT PHASE IN THE FUNCTION \n\n\n\n\n{:?}", process.as_ref().unwrap());
-        process.unwrap()
+        process.await.unwrap()
         // process.unwrap()
     }).await;
 
