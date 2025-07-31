@@ -1,6 +1,8 @@
 use crate::agents::processing_agent::process;
+use crate::services::getter::market::{get_price, get_marketcap};
 use axum::{Json,debug_handler};
 use tokio::task;
+
 // use tokio::sync::Mutex;
 
 
@@ -22,9 +24,7 @@ pub struct Prompt{
 #[debug_handler]
 pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
 
-    // println!("Successfully Responsed {:?}",query.message);
-    // println!("Successfully Responsed {:?}",query.media);
-
+    let info = &query.message.clone();
 
     let reply = task::spawn(async move{
         let process = process(&query.message);
@@ -33,6 +33,14 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
         process.await.unwrap()
         // process.unwrap()
     }).await;
+
+    let reply_2 = process(&info).await.unwrap();
+
+
+    let price = get_price("BTC").await;
+
+    println!("The price of bitcoin is {}", price);
+    println!("{}",reply_2);
 
     match reply{
         Ok(result) => {
