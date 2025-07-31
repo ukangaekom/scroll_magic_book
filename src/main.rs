@@ -1,7 +1,7 @@
 // Defining Modules
-pub mod response;
-pub mod agents;
-
+mod response;
+mod agents;
+// mod getter;
 
 use response::request;
 use axum::{
