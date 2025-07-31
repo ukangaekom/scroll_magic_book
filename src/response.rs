@@ -46,29 +46,7 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
         Respond{output:"Error".to_string(),})
     
         }
-    }
-
-   
-
-    
-}
-
-
-
-
-
-
-
-
-
-// Utilities
-
-pub fn response(_message:&str) -> String{
-
-    // let reply = process(&_message).await.unwrap();
-
-    // reply
-    "Okay".to_string()
+    } 
 }
 
 
