@@ -1,4 +1,4 @@
-use crate::agents::processing_agent::process;
+use crate::agents::{processing_agent::process, report_agent::report_result};
 use crate::services::getter::market::{get_price, get_marketcap};
 use axum::{Json,debug_handler};
 use tokio::task;
@@ -28,19 +28,15 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
 
     let reply = task::spawn(async move{
         let process = process(&query.message);
-        // response = format!("{:?}", process.as_ref().unwrap());
-        // println!("THE NEXT PHASE IN THE FUNCTION \n\n\n\n\n{:?}", process.as_ref().unwrap());
         process.await.unwrap()
-        // process.unwrap()
     }).await;
 
-    let reply_2 = process(&info).await.unwrap();
+    // let price = get_price("ETH").await;
 
+    // let reply_2 = report_result(&price).await.unwrap();
 
-    let price = get_price("BTC").await;
-
-    println!("The price of bitcoin is {}", price);
-    println!("{}",reply_2);
+    // println!("The price of bitcoin is {}", price);
+    // println!("{}",reply_2);
 
     match reply{
         Ok(result) => {

@@ -43,3 +43,15 @@ async fn main(){
 }
 
 
+
+
+#[cfg(test)]
+mod scroll_magic_book_test{
+    #[test]
+    fn test_request(){
+        super::request()
+    }
+
+}
+
+

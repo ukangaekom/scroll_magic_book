@@ -1,4 +1,4 @@
-use genai::chat::printer::print_chat_stream;
+// use genai::chat::printer::print_chat_stream;
 use genai::chat::{ChatMessage, ChatRequest};
 use genai::Client;
 use std::sync::{Arc, OnceLock};
