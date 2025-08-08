@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use serde_json::{Value};
+use tokio::task;
 
 
 
@@ -14,7 +15,7 @@ pub async fn get_price(_price:&str) -> String {
     let prices: String = match response.json::<HashMap<String,f64>>().await
         {
             Ok(num) => {format!("The price of {} is ${}",_price,num["USD"].to_string())},
-            Err(_) => {format!("The price of {} is not supported yet",_price) }
+            Err(_) => {format!("The price of {_price} is not supported yet") }
         };
     // println!("ETH prices: {:?}", prices);
 
@@ -27,7 +28,9 @@ pub async fn get_price(_price:&str) -> String {
 
 
 pub async fn get_marketcap(coin:&str) -> String {
-    let token = format!("https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=USD",coin);    
+    let token = format!("https://min-api.cryptocompare.com/data/pricemultifull?fsyms={}&tsyms=USD",coin);  
+    
+    
     let response = reqwest::get(&token).await.expect("REASON"); 
     let market_cap : Value =  response.json().await.ok().expect("REASON");
     if market_cap.get("DISPLAY").is_some() {
@@ -37,7 +40,7 @@ pub async fn get_marketcap(coin:&str) -> String {
         .get("MKTCAP").unwrap()
         .as_str().unwrap());
 
-        return json_response;
+        return format!("The market capitalization of {coin} is {json_response}");
     }else{
         return "Error fetching data!".to_string();
     }
