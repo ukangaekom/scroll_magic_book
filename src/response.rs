@@ -25,7 +25,7 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
 
     let info = &query.message.clone();
 
-    let reply = task::block_in_place(||async move{
+    let reply = task::spawn(async move{
         let process = process(&query.message).await.unwrap();
 
         
@@ -58,7 +58,7 @@ pub async fn request(Json(query):Json<Prompt>) -> Json<Respond>{
     // println!("{}",reply_2);
 
     match reply{
-        result => {
+        Ok(result) => {
             let ouput = report_result(&result).await.unwrap();
             return Json::from(
         Respond{output:ouput})
